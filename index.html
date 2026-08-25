@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ДОММ — 5 вариантов дизайна сайта</title>
+<meta name="description" content="Пять концепций редизайна сайта модульных домов ДОММ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#0A0B0D;color:#EDEFF2;font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;min-height:100svh;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.bgw{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bgw i{position:absolute;border-radius:50%;filter:blur(100px);opacity:.35;display:block}
+.bgw i:nth-child(1){width:46vw;aspect-ratio:1;background:radial-gradient(circle,#1F5C4E,transparent 66%);left:-8vw;top:-10vw;animation:f1 24s ease-in-out infinite alternate}
+.bgw i:nth-child(2){width:40vw;aspect-ratio:1;background:radial-gradient(circle,#3A3F8F,transparent 66%);right:-8vw;bottom:-10vw;animation:f2 30s ease-in-out infinite alternate}
+@keyframes f1{to{transform:translate3d(14vw,10vh,0) scale(1.2)}}
+@keyframes f2{to{transform:translate3d(-12vw,-8vh,0) scale(1.25)}}
+.wrap{width:min(1240px,100% - 40px);margin:0 auto;padding:clamp(48px,7vw,96px) 0}
+.kick{display:inline-flex;align-items:center;gap:9px;padding:8px 15px;border-radius:100px;
+  border:1px solid rgba(237,239,242,.16);background:rgba(255,255,255,.05);backdrop-filter:blur(12px);
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#5EE7C4}
+.kick i{width:6px;height:6px;border-radius:50%;background:#5EE7C4;box-shadow:0 0 12px #5EE7C4}
+h1{font-family:'Sora',sans-serif;font-weight:200;font-size:clamp(2.2rem,5.4vw,4.2rem);
+  letter-spacing:-.035em;line-height:1.02;margin:20px 0 18px}
+.sub{color:#8A94A2;max-width:64ch;line-height:1.7;font-weight:300;font-size:clamp(1rem,1.2vw,1.08rem)}
+.grid{display:grid;gap:18px;margin-top:clamp(38px,5vw,60px)}
+@media(min-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1140px){.grid{grid-template-columns:repeat(3,1fr)}}
+.v{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;position:relative;
+  border:1px solid rgba(237,239,242,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(16px);
+  opacity:0;transform:translateY(30px);
+  transition:transform .7s cubic-bezier(.16,1,.3,1),opacity .7s,border-color .5s,box-shadow .5s}
+.v.in{opacity:1;transform:none}
+.v:hover{border-color:color-mix(in srgb,var(--vac) 55%,transparent);box-shadow:0 26px 70px rgba(0,0,0,.5);transform:translateY(-6px)}
+.v__n{position:absolute;top:14px;right:16px;z-index:3;font-family:'Sora',sans-serif;font-size:12px;
+  letter-spacing:.16em;color:color-mix(in srgb,var(--vfg) 55%,transparent)}
+.v__prev{display:block;position:relative;aspect-ratio:16/10;background:var(--vbg);padding:34px 22px 0;overflow:hidden}
+.v__bar{position:absolute;top:0;left:0;right:0;height:22px;background:color-mix(in srgb,var(--vfg) 8%,var(--vbg));
+  border-bottom:1px solid color-mix(in srgb,var(--vfg) 12%,transparent)}
+.v__h{display:block;height:16px;width:72%;border-radius:3px;background:var(--vfg);opacity:.9;
+  transform-origin:0 50%;transform:scaleX(.4);transition:transform .8s cubic-bezier(.16,1,.3,1) .1s}
+.v.in .v__h{transform:scaleX(1)}
+.v__t{display:block;height:7px;width:88%;border-radius:3px;background:var(--vfg);opacity:.28;margin-top:10px;
+  transform-origin:0 50%;transform:scaleX(0);transition:transform .8s cubic-bezier(.16,1,.3,1) .22s}
+.v__t.s{width:56%;transition-delay:.3s}
+.v.in .v__t{transform:scaleX(1)}
+.v__btn{display:block;width:98px;height:26px;border-radius:100px;background:var(--vac);margin-top:16px;
+  opacity:0;transform:translateY(8px);transition:.6s cubic-bezier(.16,1,.3,1) .4s}
+.v.in .v__btn{opacity:1;transform:none}
+.v__grid{position:absolute;left:22px;right:22px;bottom:-16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.v__grid i{display:block;aspect-ratio:4/3;border-radius:8px;background:color-mix(in srgb,var(--vfg) 14%,var(--vbg));
+  border:1px solid color-mix(in srgb,var(--vfg) 14%,transparent);opacity:0;transform:translateY(12px);
+  transition:.7s cubic-bezier(.16,1,.3,1)}
+.v.in .v__grid i:nth-child(1){transition-delay:.46s}
+.v.in .v__grid i:nth-child(2){transition-delay:.54s}
+.v.in .v__grid i:nth-child(3){transition-delay:.62s}
+.v.in .v__grid i{opacity:1;transform:none}
+.v:hover .v__grid i:nth-child(2){background:var(--vac);border-color:var(--vac)}
+.v__body{padding:26px 22px 24px;display:grid;gap:8px;flex:1}
+.v__title{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:400;letter-spacing:-.02em}
+.v__sub{color:var(--vac);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.v__desc{color:#8A94A2;font-size:14px;font-weight:300;line-height:1.6;margin-top:4px}
+.v__go{display:inline-flex;align-items:center;gap:9px;margin-top:12px;font-size:13px;font-weight:500;color:var(--vac)}
+.v__go svg{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.v:hover .v__go svg{transform:translateX(6px)}
+.note{margin-top:clamp(38px,5vw,60px);padding:24px;border-radius:16px;border:1px solid rgba(237,239,242,.12);
+  background:rgba(255,255,255,.03);color:#8A94A2;font-size:14px;line-height:1.7;font-weight:300}
+.note b{color:#EDEFF2;font-weight:500}
+@media (prefers-reduced-motion:reduce){
+  .v,.v__h,.v__t,.v__btn,.v__grid i{opacity:1!important;transform:none!important;transition:none!important}
+  .bgw i{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="bgw"><i></i><i></i></div>
+<main class="wrap">
+  <span class="kick"><i></i>Редизайн domm.store</span>
+  <h1>Пять концепций сайта<br>модульных домов ДОММ</h1>
+  <p class="sub">Каждый вариант — полноценная страница с реальным контентом и фотографиями с текущего сайта:
+  каталог, планировки с ценами, комплектация, этапы работы, объекты, форма заявки и контакты.
+  Отличаются визуальный язык, типографика и характер анимаций.</p>
+  <div class="grid">
+    <a class="v" href="variant-1-nordic-noir.html" style="--vbg:#0B0B0C;--vac:#C8A56B;--vfg:#EDEBE7">
+      <span class="v__n">01</span>
+      <span class="v__prev" aria-hidden="true">
+        <span class="v__bar"></span>
+        <span class="v__h"></span><span class="v__t"></span><span class="v__t s"></span>
+        <span class="v__btn"></span>
+        <span class="v__grid"><i></i><i></i><i></i></span>
+      </span>
+      <span class="v__body">
+        <span class="v__title">Nordic Noir</span>
+        <span class="v__sub">Тёмный кинематографичный премиум</span>
+        <span class="v__desc">Латунь на графите, ken-burns герой, липкая прокрутка процесса</span>
+        <span class="v__go">Открыть вариант
+          <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 5h16M12 1l4 4-4 4"/></svg>
+        </span>
+      </span>
+    </a>
+    <a class="v" href="variant-2-scandi-light.html" style="--vbg:#F7F4EF;--vac:#8C6A46;--vfg:#1C1A17">
+      <span class="v__n">02</span>
+      <span class="v__prev" aria-hidden="true">
+        <span class="v__bar"></span>
+        <span class="v__h"></span><span class="v__t"></span><span class="v__t s"></span>
+        <span class="v__btn"></span>
+        <span class="v__grid"><i></i><i></i><i></i></span>
+      </span>
+      <span class="v__body">
+        <span class="v__title">Scandi Light</span>
+        <span class="v__sub">Светлый журнальный минимализм</span>
+        <span class="v__desc">Тёплая бумага, Playfair Display, шторные раскрытия и зигзаг</span>
+        <span class="v__go">Открыть вариант
+          <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 5h16M12 1l4 4-4 4"/></svg>
+        </span>
+      </span>
+    </a>
+    <a class="v" href="variant-3-bento-tech.html" style="--vbg:#0E0F10;--vac:#C6F24E;--vfg:#F2F4F3">
+      <span class="v__n">03</span>
+      <span class="v__prev" aria-hidden="true">
+        <span class="v__bar"></span>
+        <span class="v__h"></span><span class="v__t"></span><span class="v__t s"></span>
+        <span class="v__btn"></span>
+        <span class="v__grid"><i></i><i></i><i></i></span>
+      </span>
+      <span class="v__body">
+        <span class="v__title">Bento Tech</span>
+        <span class="v__sub">Бенто-сетка с калькулятором</span>
+        <span class="v__desc">Графит и лайм, живой расчёт цены, 3D-наклон карточек</span>
+        <span class="v__go">Открыть вариант
+          <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 5h16M12 1l4 4-4 4"/></svg>
+        </span>
+      </span>
+    </a>
+    <a class="v" href="variant-4-brutal-editorial.html" style="--vbg:#F2F0EB;--vac:#FFDD2D;--vfg:#0D0D0D">
+      <span class="v__n">04</span>
+      <span class="v__prev" aria-hidden="true">
+        <span class="v__bar"></span>
+        <span class="v__h"></span><span class="v__t"></span><span class="v__t s"></span>
+        <span class="v__btn"></span>
+        <span class="v__grid"><i></i><i></i><i></i></span>
+      </span>
+      <span class="v__body">
+        <span class="v__title">Brutal Editorial</span>
+        <span class="v__sub">Крупная типографика и рамки</span>
+        <span class="v__desc">Фирменный жёлтый, бегущие строки, ч/б фото с возвратом цвета</span>
+        <span class="v__go">Открыть вариант
+          <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 5h16M12 1l4 4-4 4"/></svg>
+        </span>
+      </span>
+    </a>
+    <a class="v" href="variant-5-glass-aurora.html" style="--vbg:#070A0E;--vac:#5EE7C4;--vfg:#EAF0F5">
+      <span class="v__n">05</span>
+      <span class="v__prev" aria-hidden="true">
+        <span class="v__bar"></span>
+        <span class="v__h"></span><span class="v__t"></span><span class="v__t s"></span>
+        <span class="v__btn"></span>
+        <span class="v__grid"><i></i><i></i><i></i></span>
+      </span>
+      <span class="v__body">
+        <span class="v__title">Glass Aurora</span>
+        <span class="v__sub">Стекло и живые градиенты</span>
+        <span class="v__desc">Мятно-фиолетовое сияние, блюр-панели, парящие чипы</span>
+        <span class="v__go">Открыть вариант
+          <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 5h16M12 1l4 4-4 4"/></svg>
+        </span>
+      </span>
+    </a></div>
+  <p class="note"><b>Как смотреть.</b> Открывайте вариант, прокручивайте страницу целиком — анимации
+  срабатывают по мере скролла. Проверьте наведение на карточки, вкладки планировок,
+  ползунок «до / после» и форму заявки. Формы пока не отправляют данные — это визуальная демонстрация,
+  подключение к почте или CRM делается на этапе внедрения.</p>
+</main>
+<script>
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.2});
+document.querySelectorAll('.v').forEach(function(el,i){
+  el.style.transitionDelay = (i*70) + 'ms';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
