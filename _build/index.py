@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 """Страница выбора варианта дизайна."""
 
-COUNT_WORD = {1: "Одна концепция", 2: "Две концепции", 3: "Три концепции",
-              4: "Четыре концепции", 5: "Пять концепций"}
+def plural(n):
+    """1 вариант / 2 варианта / 5 вариантов"""
+    if n % 10 == 1 and n % 100 != 11:
+        return "вариант"
+    if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14):
+        return "варианта"
+    return "вариантов"
 
 def build(variants):
     n = len(variants)
-    heading = COUNT_WORD.get(n, f"{n} концепций")
+    heading = f"{n} {plural(n)} дизайна"
     # при двух карточках третья колонка оставляла бы пустоту
     cols = min(n, 3)
     cards = ""
@@ -35,8 +40,8 @@ def build(variants):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ДОММ — варианты дизайна сайта</title>
-<meta name="description" content="{heading} редизайна сайта модульных домов ДОММ.">
+<title>ДОММ — {heading} сайта</title>
+<meta name="description" content="{heading} сайта модульных домов ДОММ.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -111,8 +116,8 @@ h1{{font-family:'Sora',sans-serif;font-weight:200;font-size:clamp(2.2rem,5.4vw,4
 <body>
 <div class="bgw"><i></i><i></i></div>
 <main class="wrap">
-  <span class="kick"><i></i>Редизайн domm.store</span>
-  <h1>{heading} сайта<br>модульных домов ДОММ</h1>
+  <span class="kick"><i></i>Редизайн domm.store · {heading}</span>
+  <h1>{heading}<br>сайта модульных домов ДОММ</h1>
   <p class="sub">Каждый вариант — полноценная страница с реальным контентом и фотографиями с текущего сайта:
   каталог, планировки с ценами, комплектация, этапы работы, объекты, форма заявки и контакты.
   Отличаются визуальный язык, типографика и характер анимаций.</p>
