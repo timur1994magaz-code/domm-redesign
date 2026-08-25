@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 """Страница выбора варианта дизайна."""
 
+COUNT_WORD = {1: "Одна концепция", 2: "Две концепции", 3: "Три концепции",
+              4: "Четыре концепции", 5: "Пять концепций"}
+
 def build(variants):
+    n = len(variants)
+    heading = COUNT_WORD.get(n, f"{n} концепций")
+    # при двух карточках третья колонка оставляла бы пустоту
+    cols = min(n, 3)
     cards = ""
     for i, (mod, fname, title, sub, desc, bg, accent, fg) in enumerate(variants):
         cards += f"""
@@ -28,8 +35,8 @@ def build(variants):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ДОММ — 5 вариантов дизайна сайта</title>
-<meta name="description" content="Пять концепций редизайна сайта модульных домов ДОММ.">
+<title>ДОММ — варианты дизайна сайта</title>
+<meta name="description" content="{heading} редизайна сайта модульных домов ДОММ.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -53,8 +60,8 @@ h1{{font-family:'Sora',sans-serif;font-weight:200;font-size:clamp(2.2rem,5.4vw,4
   letter-spacing:-.035em;line-height:1.02;margin:20px 0 18px}}
 .sub{{color:#8A94A2;max-width:64ch;line-height:1.7;font-weight:300;font-size:clamp(1rem,1.2vw,1.08rem)}}
 .grid{{display:grid;gap:18px;margin-top:clamp(38px,5vw,60px)}}
-@media(min-width:760px){{.grid{{grid-template-columns:repeat(2,1fr)}}}}
-@media(min-width:1140px){{.grid{{grid-template-columns:repeat(3,1fr)}}}}
+@media(min-width:760px){{.grid{{grid-template-columns:repeat({min(cols,2)},1fr)}}}}
+@media(min-width:1140px){{.grid{{grid-template-columns:repeat({cols},1fr)}}}}
 .v{{display:flex;flex-direction:column;border-radius:20px;overflow:hidden;position:relative;
   border:1px solid rgba(237,239,242,.12);background:rgba(255,255,255,.04);backdrop-filter:blur(16px);
   opacity:0;transform:translateY(30px);
@@ -105,7 +112,7 @@ h1{{font-family:'Sora',sans-serif;font-weight:200;font-size:clamp(2.2rem,5.4vw,4
 <div class="bgw"><i></i><i></i></div>
 <main class="wrap">
   <span class="kick"><i></i>Редизайн domm.store</span>
-  <h1>Пять концепций сайта<br>модульных домов ДОММ</h1>
+  <h1>{heading} сайта<br>модульных домов ДОММ</h1>
   <p class="sub">Каждый вариант — полноценная страница с реальным контентом и фотографиями с текущего сайта:
   каталог, планировки с ценами, комплектация, этапы работы, объекты, форма заявки и контакты.
   Отличаются визуальный язык, типографика и характер анимаций.</p>

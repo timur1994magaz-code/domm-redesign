@@ -4,7 +4,11 @@ import os, sys, importlib
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-VARIANTS = [
+# Какие варианты попадают на сайт. Чтобы вернуть остальные —
+# допишите сюда их ключи ("v1", "v3", "v5") и пересоберите.
+PUBLISHED = ("v2", "v4")
+
+ALL_VARIANTS = [
     ("v1", "variant-1-nordic-noir.html", "Nordic Noir",
      "Тёмный кинематографичный премиум", "Латунь на графите, ken-burns герой, липкая прокрутка процесса",
      "#0B0B0C", "#C8A56B", "#EDEBE7"),
@@ -22,7 +26,17 @@ VARIANTS = [
      "#070A0E", "#5EE7C4", "#EAF0F5"),
 ]
 
+VARIANTS = [v for v in ALL_VARIANTS if v[0] in PUBLISHED]
+
 def main():
+    # страницы вариантов, снятых с публикации, не должны оставаться в папке
+    for mod, fname, *_ in ALL_VARIANTS:
+        if mod not in PUBLISHED:
+            stale = os.path.join(ROOT, fname)
+            if os.path.exists(stale):
+                os.remove(stale)
+                print(f"– убран {fname}")
+
     for mod, fname, *_ in VARIANTS:
         m = importlib.import_module(mod)
         importlib.reload(m)

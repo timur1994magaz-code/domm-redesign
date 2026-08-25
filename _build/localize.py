@@ -69,6 +69,13 @@ def main():
     print("скачано")
     with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 4) as ex:
         list(ex.map(convert, names))
+    # чистим фото, на которые больше никто не ссылается
+    used = {n.rsplit('.', 1)[0] + '.webp' for n in names}
+    for f in os.listdir(IMG):
+        if f.endswith('.webp') and f not in used:
+            os.remove(os.path.join(IMG, f))
+            print(f"– удалено неиспользуемое {f}")
+
     total = sum(os.path.getsize(os.path.join(IMG, f)) for f in os.listdir(IMG))
     print(f"img/: {len(os.listdir(IMG))} файлов, {total/1024/1024:.1f} МБ")
 
