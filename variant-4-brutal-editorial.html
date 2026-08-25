@@ -769,9 +769,11 @@ body.nav-open .mnav a{opacity:1;transform:none}
       if(!e.isIntersecting) return;
       cio.unobserve(e.target);
       var el = e.target, to = parseFloat(el.dataset.count), t0 = null, dur = 1500;
-      if(RM){ el.textContent = el.dataset.raw || to; return; }
+      /* без анимации всё равно нужен суффикс: иначе «80+» превращается в «80» */
+      if(RM){ el.textContent = (el.dataset.raw || to.toLocaleString('ru-RU')) +
+                               (el.dataset.suffix || ''); return; }
       requestAnimationFrame(function step(t){
-        if(!t0) t0 = t;
+        if(t0 === null) t0 = t;
         var k = Math.min((t-t0)/dur,1), e2 = 1 - Math.pow(1-k,3);
         el.textContent = Math.round(to*e2).toLocaleString('ru-RU') + (el.dataset.suffix||'');
         if(k<1) requestAnimationFrame(step);

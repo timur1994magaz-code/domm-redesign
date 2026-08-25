@@ -2,3 +2,5 @@
 _build/.raw/
 __pycache__/
 *.pyc
+.playwright-mcp/
+_tmp-*.html
