@@ -180,25 +180,48 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac
 .calc__rows div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;
   border-bottom:1px solid rgba(247,244,239,.1);font-size:13.5px;color:rgba(247,244,239,.68)}
 .calc__rows b{color:#F7F4EF;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
-.pay{margin-top:24px}
-.pay>.cap{font-size:12.5px;color:rgba(247,244,239,.66);margin-bottom:6px;display:block}
-.pay__row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;
-  padding:12px 0;border-top:1px solid rgba(247,244,239,.14)}
-.pay__pc{font-family:var(--font-head);font-size:1.05rem;font-weight:500;color:#D9B87C;
+.pay{margin-top:18px}
+.pay>.cap{font-size:12.5px;color:rgba(247,244,239,.66);margin-bottom:4px;display:block}
+.pay>.cap em{display:block;font-style:normal;font-size:11px;color:rgba(247,244,239,.42);margin-top:3px}
+.pay__row{position:relative;display:grid;grid-template-columns:40px 1fr auto;gap:12px;
+  align-items:center;padding:10px 0 13px}
+/* дорожка шкалы — она же разделитель строк */
+.pay__row::before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:rgba(247,244,239,.14)}
+.pay__bar{position:absolute;left:0;bottom:0;height:2px;background:#D9B87C;
+  transform-origin:0 50%;transform:scaleX(0);transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.in .pay__bar{transform:scaleX(1)}
+.pay__pc{font-family:var(--font-head);font-size:1rem;font-weight:500;color:#D9B87C;
   font-variant-numeric:tabular-nums}
-.pay__t b{display:block;font-size:13.5px;font-weight:500}
-.pay__t span{display:block;font-size:11.5px;color:rgba(247,244,239,.6);margin-top:2px}
-.pay__v{font-size:14px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
-.pay__prog{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin-top:9px}
-.pay__bar{flex:1;height:3px;border-radius:3px;background:rgba(247,244,239,.16);overflow:hidden}
-.pay__bar i{display:block;height:100%;background:#D9B87C;transform-origin:0 50%;transform:scaleX(0);
-  transition:transform .9s cubic-bezier(.16,1,.3,1)}
-.in .pay__bar i{transform:scaleX(1)}
-.pay__cum{font-size:11px;color:rgba(247,244,239,.5);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pay__t b{display:block;font-size:13px;font-weight:500;line-height:1.3}
+.pay__t span{display:block;font-size:11px;color:rgba(247,244,239,.58);margin-top:2px;line-height:1.35}
+.pay__v{font-size:13.5px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
 .calc__note{font-size:11.5px;color:rgba(247,244,239,.55);line-height:1.6;margin-top:16px}
 .calc__sum .btn{margin-top:18px;width:100%;background:#D9B87C;color:var(--ink);box-shadow:none}
 .calc__sum .btn::before{background:#F7F4EF}
 .calc__sum .btn:hover{color:var(--ink)}
+
+/* На широком экране блок должен помещаться в один экран целиком */
+@media(min-width:1040px){
+  .calc{gap:24px}
+  .calc__panel,.calc__sum{padding:26px}
+  .grp{padding-bottom:17px;margin-bottom:17px}
+  .grp>.gt{margin-bottom:11px}
+  .grp>.gt b{font-size:1.05rem}
+  .chip{padding:10px 14px;font-size:13px}
+  .chip small{font-size:11px;margin-top:1px}
+  .copts{display:grid;grid-template-columns:1fr 1fr;column-gap:26px}
+  .copt{padding:9px 0}
+  .copts .copt:nth-last-child(-n+2){border-bottom:0}
+  .copt .t{font-size:13.5px}
+  .rng__top{margin-bottom:8px}
+  input[type=range]{height:22px}
+  .calc__total{font-size:clamp(2rem,3.4vw,2.6rem);margin:4px 0 2px}
+  .calc__rows{margin:16px 0 0}
+  .calc__rows div{padding:8px 0;font-size:13px}
+  .calc__note{font-size:11px;margin-top:12px}
+  .calc__sum .btn{margin-top:14px;padding:13px 24px}
+}
 
 /* Планировки — список-аккордеон */
 .tabs{display:inline-flex;gap:6px;padding:6px;background:var(--bg-3);border-radius:100px;margin-bottom:32px}
@@ -541,10 +564,7 @@ def build():
         <span class="pay__pc">{pc}%</span>
         <span class="pay__t"><b>{t}</b><span>{d}</span></span>
         <span class="pay__v" data-pay="{pc}">—</span>
-        <span class="pay__prog">
-          <span class="pay__bar"><i style="width:{cum}%"></i></span>
-          <span class="pay__cum">оплачено {cum}%</span>
-        </span>
+        <i class="pay__bar" style="width:{cum}%" aria-hidden="true"></i>
       </div>""" for pc, t, d, cum in cums)
 
     o.append(f"""
@@ -564,7 +584,7 @@ def build():
         <div class="grp"><span class="gt"><b>Комплектация</b><span>2 из 4</span></span>
           <div class="chips">{packs}</div></div>
         <div class="grp"><span class="gt"><b>Дополнительные опции</b><span>3 из 4</span></span>
-          {copts}</div>
+          <div class="copts">{copts}</div></div>
         <div class="grp"><span class="gt"><b>Фундамент и доставка</b><span>4 из 4</span></span>
           <div class="chips">{founds}</div>
           <div class="rng">
@@ -585,10 +605,9 @@ def build():
           <div><span>Фундамент</span><b data-r-found>—</b></div>
           <div><span>Доставка и монтаж</span><b data-r-log>—</b></div>
         </div>
-        <div class="pay"><span class="cap">Оплата дома по договору · <b data-house-sum>—</b></span>{pays}</div>
-        <p class="calc__note">График относится к стоимости дома с комплектацией и опциями;
-        фундамент, доставка и монтаж оплачиваются отдельно. Расчёт ориентировочный — точную смету
-        пришлём после разговора, она зависит от подъезда к участку и техники на монтаже.</p>
+        <div class="pay"><span class="cap">Оплата дома по договору · <b data-house-sum>—</b><em>полоса — сколько оплачено к этому моменту</em></span>{pays}</div>
+        <p class="calc__note">График — только по дому: фундамент, доставка и монтаж
+        оплачиваются отдельно. Точную смету пришлём после разговора.</p>
         <a class="btn btn--fill" href="#cta" data-send-calc>Зафиксировать расчёт {ARR}</a>
       </aside>
     </div>
