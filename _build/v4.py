@@ -174,7 +174,8 @@ body.nav-open .mnav a{opacity:1;transform:none}
 
 /* Мозаика */
 .mos{display:grid;grid-template-columns:repeat(2,1fr);border-left:2px solid var(--line);border-top:2px solid var(--line)}
-@media(min-width:900px){.mos{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.mos{grid-template-columns:repeat(3,1fr)}
+  .mos--d figure:nth-child(7){grid-column:span 2;aspect-ratio:2/1}}
 .mos figure{margin:0;position:relative;border-right:2px solid var(--line);border-bottom:2px solid var(--line);
   aspect-ratio:1/1;overflow:hidden;cursor:zoom-in}
 .mos img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.06);
@@ -379,7 +380,7 @@ def build():
     <p class="lead" data-rv="up" style="--d:150ms">Электрощит, розетки, выключатели, светильники и ручки —
     одно оформление без визуального шума.</p>
   </div>
-  <div class="mos" data-stagger="60">{mos}</div>
+  <div class="mos mos--d" data-stagger="60">{mos}</div>
 </div></section>""")
 
     objs = "".join(f"""

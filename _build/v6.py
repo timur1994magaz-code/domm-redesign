@@ -230,7 +230,8 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac
 
 /* мозаика */
 .mos{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
-@media(min-width:900px){.mos{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:900px){.mos{grid-template-columns:repeat(3,1fr)}
+  .mos figure:nth-child(7){grid-column:span 2;aspect-ratio:2/1}}
 .mos figure{margin:0;position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:var(--radius);
   border:1px solid var(--line);cursor:zoom-in}
 .mos img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
