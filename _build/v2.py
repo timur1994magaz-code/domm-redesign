@@ -189,10 +189,12 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac
 .pay__t b{display:block;font-size:13.5px;font-weight:500}
 .pay__t span{display:block;font-size:11.5px;color:rgba(247,244,239,.6);margin-top:2px}
 .pay__v{font-size:14px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
-.pay__bar{grid-column:1/-1;height:3px;border-radius:3px;background:rgba(247,244,239,.16);overflow:hidden;margin-top:8px}
+.pay__prog{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin-top:9px}
+.pay__bar{flex:1;height:3px;border-radius:3px;background:rgba(247,244,239,.16);overflow:hidden}
 .pay__bar i{display:block;height:100%;background:#D9B87C;transform-origin:0 50%;transform:scaleX(0);
   transition:transform .9s cubic-bezier(.16,1,.3,1)}
 .in .pay__bar i{transform:scaleX(1)}
+.pay__cum{font-size:11px;color:rgba(247,244,239,.5);white-space:nowrap;font-variant-numeric:tabular-nums}
 .calc__note{font-size:11.5px;color:rgba(247,244,239,.55);line-height:1.6;margin-top:16px}
 .calc__sum .btn{margin-top:18px;width:100%;background:#D9B87C;color:var(--ink);box-shadow:none}
 .calc__sum .btn::before{background:#F7F4EF}
@@ -337,9 +339,32 @@ CALC_JS = r"""
       pays  = root.querySelectorAll('[data-pay]'),
       houseOut = root.querySelector('[data-house-sum]');
   var MONTAGE = MONTAGE_PLACEHOLDER, PER_KM = PERKM_PLACEHOLDER;
-  var cur = 0;
+  var RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var shown = {};   /* что сейчас на экране — от этих значений считаем следующий пересчёт */
 
   function money(n){ return Math.round(n).toLocaleString('ru-RU') + ' ₽'; }
+
+  /* Одна анимация на все суммы сразу: итог и четыре платежа идут синхронно. */
+  var tween = null;
+  function animate(targets){
+    if(tween) cancelAnimationFrame(tween);
+    if(RM.matches){
+      targets.forEach(function(t){ t.el.textContent = money(t.to); shown[t.key] = t.to; });
+      return;
+    }
+    var t0 = null;
+    /* первый кадр только через rAF: при прямом вызове t === undefined и получится NaN */
+    tween = requestAnimationFrame(function step(t){
+      if(t0 === null) t0 = t;
+      var q = Math.min((t - t0) / 520, 1), e = 1 - Math.pow(1 - q, 3);
+      targets.forEach(function(x){
+        var v = x.from + (x.to - x.from) * e;
+        x.el.textContent = money(v);
+        shown[x.key] = v;
+      });
+      if(q < 1) tween = requestAnimationFrame(step); else tween = null;
+    });
+  }
 
   function pick(sel, el){
     root.querySelectorAll(sel).forEach(function(x){ x.classList.remove('on'); });
@@ -379,17 +404,13 @@ CALC_JS = r"""
     root.querySelector('[data-r-log]').textContent   = money(log) + ' · ' + d + ' км';
     if(kmOut) kmOut.textContent = d + ' км';
     if(houseOut) houseOut.textContent = money(house);
-    pays.forEach(function(el){ el.textContent = money(house * (+el.dataset.pay) / 100); });
 
-    var from = cur, t0 = null; cur = sum;
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ total.textContent = money(sum); return; }
-    /* первый кадр только через rAF: при прямом вызове t === undefined и получится NaN */
-    requestAnimationFrame(function anim(t){
-      if(t0 === null) t0 = t;
-      var q = Math.min((t - t0) / 480, 1), e = 1 - Math.pow(1 - q, 3);
-      total.textContent = money(from + (sum - from) * e);
-      if(q < 1) requestAnimationFrame(anim);
+    var targets = [{key: 'total', el: total, from: shown.total || 0, to: sum}];
+    pays.forEach(function(el, i){
+      var k = 'pay' + i;
+      targets.push({key: k, el: el, from: shown[k] || 0, to: house * (+el.dataset.pay) / 100});
     });
+    animate(targets);
   }
 
   /* расчёт уезжает в заявку — человеку не нужно ничего описывать словами */
@@ -509,13 +530,22 @@ def build():
       <button class="chip{' on' if i == 0 else ''}" data-found data-price="{pr}" data-name="{n}"
               type="button">{n}<small>{d}</small></button>"""
         for i, (n, d, pr) in enumerate(FOUND))
+    # шкала показывает не долю платежа (она всегда одна и та же),
+    # а сколько всего оплачено к этому моменту
+    cums, run = [], 0
+    for pc, t, d in SCHEDULE:
+        run += pc
+        cums.append((pc, t, d, run))
     pays = "".join(f"""
       <div class="pay__row">
         <span class="pay__pc">{pc}%</span>
         <span class="pay__t"><b>{t}</b><span>{d}</span></span>
         <span class="pay__v" data-pay="{pc}">—</span>
-        <span class="pay__bar"><i style="width:{pc}%"></i></span>
-      </div>""" for pc, t, d in SCHEDULE)
+        <span class="pay__prog">
+          <span class="pay__bar"><i style="width:{cum}%"></i></span>
+          <span class="pay__cum">оплачено {cum}%</span>
+        </span>
+      </div>""" for pc, t, d, cum in cums)
 
     o.append(f"""
 <section class="sec" id="calc">
