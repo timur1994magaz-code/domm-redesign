@@ -182,15 +182,21 @@ input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--ac
 .calc__rows b{color:#F7F4EF;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
 .pay{margin-top:18px}
 .pay>.cap{font-size:12.5px;color:rgba(247,244,239,.66);margin-bottom:4px;display:block}
-.pay>.cap em{display:block;font-style:normal;font-size:11px;color:rgba(247,244,239,.42);margin-top:3px}
+.pay>.cap em{display:block;font-style:normal;font-size:11px;color:rgba(247,244,239,.45);margin-top:3px;line-height:1.45}
+.pay>.cap em b{color:rgba(247,244,239,.7);font-weight:500}
 .pay__row{position:relative;display:grid;grid-template-columns:40px 1fr auto;gap:12px;
   align-items:center;padding:10px 0 13px}
 /* дорожка шкалы — она же разделитель строк */
 .pay__row::before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
   background:rgba(247,244,239,.14)}
-.pay__bar{position:absolute;left:0;bottom:0;height:2px;background:#D9B87C;
-  transform-origin:0 50%;transform:scaleX(0);transition:transform .9s cubic-bezier(.16,1,.3,1)}
-.in .pay__bar{transform:scaleX(1)}
+/* --k задаёт скрипт: доля платежа во всей смете */
+.pay__bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:#D9B87C;
+  transform-origin:0 50%;transform:scaleX(0);transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.in .pay__bar{transform:scaleX(var(--k,0))}
+.pay__row--extra{color:rgba(247,244,239,.72)}
+.pay__row--extra .pay__pc{font-family:var(--font-body);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(247,244,239,.4)}
+.pay__row--extra .pay__bar{background:rgba(247,244,239,.42)}
 .pay__pc{font-family:var(--font-head);font-size:1rem;font-weight:500;color:#D9B87C;
   font-variant-numeric:tabular-nums}
 .pay__t b{display:block;font-size:13px;font-weight:500;line-height:1.3}
@@ -428,12 +434,25 @@ CALC_JS = r"""
     if(kmOut) kmOut.textContent = d + ' км';
     if(houseOut) houseOut.textContent = money(house);
 
+    var extraSum = foundation + log;
+    var extraEl = root.querySelector('[data-extra]');
+
     var targets = [{key: 'total', el: total, from: shown.total || 0, to: sum}];
+    var values = [];
     pays.forEach(function(el, i){
-      var k = 'pay' + i;
-      targets.push({key: k, el: el, from: shown[k] || 0, to: house * (+el.dataset.pay) / 100});
+      var v = house * (+el.dataset.pay) / 100;
+      values.push(v);
+      targets.push({key: 'pay' + i, el: el, from: shown['pay' + i] || 0, to: v});
     });
+    values.push(extraSum);
+    if(extraEl) targets.push({key: 'extra', el: extraEl, from: shown.extra || 0, to: extraSum});
     animate(targets);
+
+    /* Шкала = доля платежа во всей смете. Она меняется от любой настройки:
+       график по договору считается от дома, а фундамент и доставка идут отдельно. */
+    root.querySelectorAll('.pay__bar').forEach(function(bar, i){
+      bar.style.setProperty('--k', sum ? (values[i] / sum).toFixed(4) : 0);
+    });
   }
 
   /* расчёт уезжает в заявку — человеку не нужно ничего описывать словами */
@@ -446,8 +465,10 @@ CALC_JS = r"""
     });
     lines.push('');
     root.querySelectorAll('.pay__row').forEach(function(r){
-      lines.push(r.querySelector('.pay__pc').textContent + ' — ' +
-                 r.querySelector('.pay__t b').textContent + ': ' +
+      var pc = r.querySelector('.pay__pc').textContent.trim();
+      var name = r.querySelector('.pay__t b').textContent.trim();
+      /* у строки «вне договора» вместо доли стоит пометка — её в текст не тащим */
+      lines.push((/%$/.test(pc) ? pc + ' — ' : '') + name + ': ' +
                  r.querySelector('.pay__v').textContent);
     });
     box.value = lines.join('\n');
@@ -553,19 +574,23 @@ def build():
       <button class="chip{' on' if i == 0 else ''}" data-found data-price="{pr}" data-name="{n}"
               type="button">{n}<small>{d}</small></button>"""
         for i, (n, d, pr) in enumerate(FOUND))
-    # шкала показывает не долю платежа (она всегда одна и та же),
-    # а сколько всего оплачено к этому моменту
-    cums, run = [], 0
-    for pc, t, d in SCHEDULE:
-        run += pc
-        cums.append((pc, t, d, run))
+    # шкалу задаёт скрипт: она показывает долю платежа во всей смете,
+    # а эта доля меняется от модели, опций, фундамента и расстояния
     pays = "".join(f"""
       <div class="pay__row">
         <span class="pay__pc">{pc}%</span>
         <span class="pay__t"><b>{t}</b><span>{d}</span></span>
         <span class="pay__v" data-pay="{pc}">—</span>
-        <i class="pay__bar" style="width:{cum}%" aria-hidden="true"></i>
-      </div>""" for pc, t, d, cum in cums)
+        <i class="pay__bar" aria-hidden="true"></i>
+      </div>""" for pc, t, d in SCHEDULE)
+    pays += """
+      <div class="pay__row pay__row--extra">
+        <span class="pay__pc">вне</span>
+        <span class="pay__t"><b>Фундамент, доставка и монтаж</b>
+          <span>оплачиваются отдельно от договора на дом</span></span>
+        <span class="pay__v" data-extra>—</span>
+        <i class="pay__bar" aria-hidden="true"></i>
+      </div>"""
 
     o.append(f"""
 <section class="sec" id="calc">
@@ -605,9 +630,8 @@ def build():
           <div><span>Фундамент</span><b data-r-found>—</b></div>
           <div><span>Доставка и монтаж</span><b data-r-log>—</b></div>
         </div>
-        <div class="pay"><span class="cap">Оплата дома по договору · <b data-house-sum>—</b><em>полоса — сколько оплачено к этому моменту</em></span>{pays}</div>
-        <p class="calc__note">График — только по дому: фундамент, доставка и монтаж
-        оплачиваются отдельно. Точную смету пришлём после разговора.</p>
+        <div class="pay"><span class="cap">Как распределяется смета<em>четыре платежа по договору на дом · <b data-house-sum>—</b> · полоса — доля во всей смете</em></span>{pays}</div>
+        <p class="calc__note">Расчёт ориентировочный — точную смету пришлём после разговора.</p>
         <a class="btn btn--fill" href="#cta" data-send-calc>Зафиксировать расчёт {ARR}</a>
       </aside>
     </div>
