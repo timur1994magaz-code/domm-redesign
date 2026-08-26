@@ -257,6 +257,78 @@ body.nav-open .mnav a{opacity:1;transform:none}
 .card__p b{font-family:var(--font-head);font-size:1.4rem;font-weight:500}
 .card__p span{font-size:12px;color:var(--muted)}
 
+/* Калькулятор */
+.calc{display:grid;gap:22px}
+@media(min-width:1040px){.calc{grid-template-columns:1fr .82fr;gap:30px;align-items:start}}
+.calc__panel{background:var(--bg-2);border-radius:var(--radius);padding:clamp(24px,3vw,36px);
+  box-shadow:0 1px 2px rgba(28,26,23,.05)}
+.grp{padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid var(--line)}
+.grp:last-child{padding-bottom:0;margin-bottom:0;border-bottom:0}
+.grp>.gt{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.grp>.gt b{font-family:var(--font-head);font-size:1.15rem;font-weight:500}
+.grp>.gt span{font-size:12.5px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:12px 16px;border-radius:100px;font-size:13.5px;color:var(--muted);text-align:left;
+  background:var(--bg);border:1px solid var(--line);transition:.3s}
+.chip:hover{border-color:var(--accent);color:var(--ink)}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip small{display:block;font-size:11.5px;opacity:.75;margin-top:2px}
+.copt{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(28,26,23,.07);cursor:pointer}
+.copt:last-child{border-bottom:0}
+.copt input{position:absolute;opacity:0;pointer-events:none}
+.copt .bx{flex:0 0 22px;width:22px;height:22px;border-radius:7px;border:1px solid var(--line);
+  background:var(--bg);display:grid;place-items:center;transition:.3s}
+.copt .bx svg{width:11px;height:11px;color:#fff;opacity:0;transform:scale(.5);transition:.3s}
+.copt input:checked + .bx{background:var(--accent);border-color:var(--accent)}
+.copt input:checked + .bx svg{opacity:1;transform:none}
+.copt input:focus-visible + .bx{outline:2px solid var(--accent);outline-offset:3px}
+.copt .t{flex:1;font-size:14.5px}
+.copt b{font-size:13.5px;color:var(--muted);font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.rng{margin-top:4px}
+.rng__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.rng__top span{font-size:12.5px;color:var(--muted)}
+.rng__top b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;
+  cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--line);border-radius:2px}
+input[type=range]::-moz-range-track{height:2px;background:var(--line);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);border:4px solid var(--bg-2);margin-top:-10px;
+  box-shadow:0 2px 8px rgba(28,26,23,.24);transition:transform .2s}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--accent);
+  border:4px solid var(--bg-2);box-shadow:0 2px 8px rgba(28,26,23,.24)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--accent);outline-offset:3px}
+/* итог */
+.calc__sum{background:var(--ink);color:#F7F4EF;border-radius:var(--radius);
+  padding:clamp(24px,3vw,34px);position:sticky;top:88px;overflow:hidden}
+@media(max-width:1039px){.calc__sum{position:static}}
+.calc__sum>.cap{font-size:12.5px;color:rgba(247,244,239,.66)}
+.calc__total{font-family:var(--font-head);font-size:clamp(2.3rem,4.6vw,3.1rem);font-weight:500;
+  letter-spacing:-.02em;color:#D9B87C;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.calc__sub{font-size:13px;color:rgba(247,244,239,.66);line-height:1.5}
+.calc__rows{margin:22px 0 0;border-top:1px solid rgba(247,244,239,.18)}
+.calc__rows div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;
+  border-bottom:1px solid rgba(247,244,239,.1);font-size:13.5px;color:rgba(247,244,239,.68)}
+.calc__rows b{color:#F7F4EF;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+.pay{margin-top:24px}
+.pay>.cap{font-size:12.5px;color:rgba(247,244,239,.66);margin-bottom:6px;display:block}
+.pay__row{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;
+  padding:12px 0;border-top:1px solid rgba(247,244,239,.14)}
+.pay__pc{font-family:var(--font-head);font-size:1.05rem;font-weight:500;color:#D9B87C;
+  font-variant-numeric:tabular-nums}
+.pay__t b{display:block;font-size:13.5px;font-weight:500}
+.pay__t span{display:block;font-size:11.5px;color:rgba(247,244,239,.6);margin-top:2px}
+.pay__v{font-size:14px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pay__bar{grid-column:1/-1;height:3px;border-radius:3px;background:rgba(247,244,239,.16);overflow:hidden;margin-top:8px}
+.pay__bar i{display:block;height:100%;background:#D9B87C;transform-origin:0 50%;transform:scaleX(0);
+  transition:transform .9s cubic-bezier(.16,1,.3,1)}
+.in .pay__bar i{transform:scaleX(1)}
+.calc__note{font-size:11.5px;color:rgba(247,244,239,.55);line-height:1.6;margin-top:16px}
+.calc__sum .btn{margin-top:18px;width:100%;background:#D9B87C;color:var(--ink);box-shadow:none}
+.calc__sum .btn::before{background:#F7F4EF}
+.calc__sum .btn:hover{color:var(--ink)}
+
 /* Планировки — список-аккордеон */
 .tabs{display:inline-flex;gap:6px;padding:6px;background:var(--bg-3);border-radius:100px;margin-bottom:32px}
 .tabs button{padding:11px 22px;border-radius:100px;font-size:13px;font-weight:500;color:var(--muted);transition:.35s}
@@ -363,11 +435,11 @@ body.nav-open .mnav a{opacity:1;transform:none}
 <div class="paper"></div><div class="cursor"></div>
 <header class="hdr" data-header><div class="wrap hdr__in">
   <a class="logo" href="#top">DOM<em>M</em></a>
-  <nav class="nav"><a href="#prices">Цены</a><a href="#projects">Проекты</a><a href="#objects">Наши дома</a><a href="#process">Как мы работаем</a><a href="#contacts">Контакты</a></nav>
+  <nav class="nav"><a href="#prices">Цены</a><a href="#calc">Калькулятор</a><a href="#projects">Проекты</a><a href="#objects">Наши дома</a><a href="#process">Как мы работаем</a><a href="#contacts">Контакты</a></nav>
   <a class="btn btn--fill hdr__cta" href="tel:+79833072987" data-magnet=".25">Заказать расчёт</a>
   <button class="burger" data-burger aria-label="Меню" aria-expanded="false"><i></i><i></i><i></i></button>
 </div></header>
-<nav class="mnav" data-menu><a href="#prices">Цены</a><a href="#projects">Проекты</a><a href="#objects">Наши дома</a><a href="#process">Как мы работаем</a><a href="#contacts">Контакты</a>
+<nav class="mnav" data-menu><a href="#prices">Цены</a><a href="#calc">Калькулятор</a><a href="#projects">Проекты</a><a href="#objects">Наши дома</a><a href="#process">Как мы работаем</a><a href="#contacts">Контакты</a>
   <div class="mnav__foot"><a href="tel:+79529139111">8 (952) 913-91-11</a>
   <a href="tel:+79833072987">8 (983) 307-29-87</a><a href="mailto:dom-m54@mail.ru">dom-m54@mail.ru</a></div>
 </nav>
@@ -377,8 +449,8 @@ body.nav-open .mnav a{opacity:1;transform:none}
     <h1 class="h1" data-split="line">Модульные дома<br>для <span class="it">жизни</span> и отдыха</h1>
     <p class="lead hero__sub">Модульный дом с террасой под ключ от 990 тыс. ₽ за 30 дней. Более 80 реализованных проектов.</p>
     <div class="hero__acts">
-      <a class="btn btn--fill" href="#projects" data-magnet=".3">Смотреть проекты <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M0 5h16M12 1l4 4-4 4"/></svg></a>
-      <a class="btn btn--ghost" href="https://wa.me/79833072987" target="_blank" rel="noopener">Написать в WhatsApp</a>
+      <a class="btn btn--fill" href="#calc" data-magnet=".3">Рассчитать стоимость <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M0 5h16M12 1l4 4-4 4"/></svg></a>
+      <a class="btn btn--ghost" href="#projects">Смотреть проекты</a>
     </div>
   </div>
   <div class="hero__frame" data-rv="mask">
@@ -446,6 +518,112 @@ body.nav-open .mnav a{opacity:1;transform:none}
         <a class="btn btn--ghost" href="#cta" style="margin-top:12px;justify-self:start">Узнать подробнее <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M0 5h16M12 1l4 4-4 4"/></svg></a>
       </div>
     </article></div>
+  </div>
+</section>
+<section class="sec" id="calc">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div data-rv="up"><span class="kicker">Калькулятор</span>
+        <h2 class="h2" style="margin-top:20px" data-split="line">Соберите свой дом<br>и узнайте <span class="it">цену</span></h2></div>
+      <p class="lead" data-rv="up" style="--d:150ms">Выберите модель, комплектацию и опции, добавьте
+      фундамент и расстояние до участка. Стоимость пересчитывается сразу, а рядом видно,
+      сколько и когда платить по договору.</p>
+    </div>
+    <div class="calc">
+      <div class="calc__panel" data-rv="up">
+        <div class="grp"><span class="gt"><b>Модель дома</b><span>1 из 4</span></span>
+          <div class="chips">
+      <button class="chip on" data-model data-price="990000"
+              data-name="MODUL HOUSE 1" type="button">MODUL HOUSE 1<small>27 м² · от 990 000 ₽</small></button>
+      <button class="chip" data-model data-price="1450000"
+              data-name="MODUL HOUSE 2" type="button">MODUL HOUSE 2<small>30 м² · от 1 450 000 ₽</small></button>
+      <button class="chip" data-model data-price="1550000"
+              data-name="MODUL HOUSE 3" type="button">MODUL HOUSE 3<small>40 м² · от 1 550 000 ₽</small></button>
+      <button class="chip" data-model data-price="1650000"
+              data-name="MODUL HOUSE 4" type="button">MODUL HOUSE 4<small>56,3 м² · от 1 650 000 ₽</small></button>
+      <button class="chip" data-model data-price="2500000"
+              data-name="MODUL HOUSE 6" type="button">MODUL HOUSE 6<small>60 м² · от 2 500 000 ₽</small></button>
+      <button class="chip" data-model data-price="1050000"
+              data-name="МОДУЛЬНАЯ БАНЯ" type="button">МОДУЛЬНАЯ БАНЯ<small>15 м² · от 1 050 000 ₽</small></button></div></div>
+        <div class="grp"><span class="gt"><b>Комплектация</b><span>2 из 4</span></span>
+          <div class="chips">
+      <button class="chip on" data-pack data-k="1.0" data-name="Базовая"
+              type="button">Базовая<small>по списку комплектации</small></button>
+      <button class="chip" data-pack data-k="1.12" data-name="Расширенная"
+              type="button">Расширенная<small>фанера на стенах, кашировка рам</small></button>
+      <button class="chip" data-pack data-k="1.25" data-name="Премиум"
+              type="button">Премиум<small>полная отделка и сантехника</small></button></div></div>
+        <div class="grp"><span class="gt"><b>Дополнительные опции</b><span>3 из 4</span></span>
+          
+      <label class="copt"><input type="checkbox" value="90000" data-name="Система кондиционирования"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Система кондиционирования</span><b>+90 000 ₽</b></label>
+      <label class="copt"><input type="checkbox" value="110000" data-name="Система тёплого пола"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Система тёплого пола</span><b>+110 000 ₽</b></label>
+      <label class="copt"><input type="checkbox" value="75000" data-name="Сантехнические приборы"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Сантехнические приборы</span><b>+75 000 ₽</b></label>
+      <label class="copt"><input type="checkbox" value="45000" data-name="Светодиодные подсветки"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Светодиодные подсветки</span><b>+45 000 ₽</b></label>
+      <label class="copt"><input type="checkbox" value="250000" data-name="Мебель и предметы интерьера"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Мебель и предметы интерьера</span><b>+250 000 ₽</b></label>
+      <label class="copt"><input type="checkbox" value="85000" data-name="Внутренняя отделка стен фанерой"><span class="bx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg></span>
+        <span class="t">Внутренняя отделка стен фанерой</span><b>+85 000 ₽</b></label></div>
+        <div class="grp"><span class="gt"><b>Фундамент и доставка</b><span>4 из 4</span></span>
+          <div class="chips">
+      <button class="chip on" data-found data-price="180000" data-name="Винтовые сваи"
+              type="button">Винтовые сваи<small>подходит большинству участков</small></button>
+      <button class="chip" data-found data-price="260000" data-name="Бетонные сваи"
+              type="button">Бетонные сваи<small>для сложных грунтов</small></button>
+      <button class="chip" data-found data-price="0" data-name="Фундамент уже есть"
+              type="button">Фундамент уже есть<small>не считаем</small></button></div>
+          <div class="rng">
+            <div class="rng__top"><span>Расстояние до участка</span><b data-km-out>50 км</b></div>
+            <input type="range" data-km min="0" max="1500" value="50" step="10"
+                   aria-label="Расстояние до участка в километрах">
+          </div>
+        </div>
+      </div>
+
+      <aside class="calc__sum" data-rv="up" style="--d:120ms">
+        <span class="cap">Под ключ с монтажом на участке</span>
+        <div class="calc__total" data-total>1 294 500 ₽</div>
+        <p class="calc__sub" data-sub>MODUL HOUSE 1 · комплектация «Базовая»</p>
+        <div class="calc__rows">
+          <div><span>Дом с комплектацией</span><b data-r-house>—</b></div>
+          <div><span>Опции</span><b data-r-opts>—</b></div>
+          <div><span>Фундамент</span><b data-r-found>—</b></div>
+          <div><span>Доставка и монтаж</span><b data-r-log>—</b></div>
+        </div>
+        <div class="pay"><span class="cap">Оплата дома по договору · <b data-house-sum>—</b></span>
+      <div class="pay__row">
+        <span class="pay__pc">30%</span>
+        <span class="pay__t"><b>Аванс при заключении договора</b><span>цена фиксируется и больше не меняется</span></span>
+        <span class="pay__v" data-pay="30">—</span>
+        <span class="pay__bar"><i style="width:30%"></i></span>
+      </div>
+      <div class="pay__row">
+        <span class="pay__pc">40%</span>
+        <span class="pay__t"><b>Через две недели</b><span>дом уходит в производство</span></span>
+        <span class="pay__v" data-pay="40">—</span>
+        <span class="pay__bar"><i style="width:40%"></i></span>
+      </div>
+      <div class="pay__row">
+        <span class="pay__pc">15%</span>
+        <span class="pay__t"><b>После приёмки на производстве</b><span>перед отгрузкой на трал</span></span>
+        <span class="pay__v" data-pay="15">—</span>
+        <span class="pay__bar"><i style="width:15%"></i></span>
+      </div>
+      <div class="pay__row">
+        <span class="pay__pc">15%</span>
+        <span class="pay__t"><b>После монтажа на участке</b><span>когда получаете ключи</span></span>
+        <span class="pay__v" data-pay="15">—</span>
+        <span class="pay__bar"><i style="width:15%"></i></span>
+      </div></div>
+        <p class="calc__note">График относится к стоимости дома с комплектацией и опциями;
+        фундамент, доставка и монтаж оплачиваются отдельно. Расчёт ориентировочный — точную смету
+        пришлём после разговора, она зависит от подъезда к участку и техники на монтаже.</p>
+        <a class="btn btn--fill" href="#cta" data-send-calc>Зафиксировать расчёт <svg width="16" height="10" viewBox="0 0 18 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M0 5h16M12 1l4 4-4 4"/></svg></a>
+      </aside>
+    </div>
   </div>
 </section>
 <section class="sec" id="prices">
@@ -1037,6 +1215,95 @@ body.nav-open .mnav a{opacity:1;transform:none}
   window.addEventListener('load', function(){ document.body.classList.add('ready'); onScroll(); });
 })();
 
+
+/* --- Калькулятор стоимости и график платежей --- */
+(function(){
+  var root = document.getElementById('calc'); if(!root) return;
+  var total = root.querySelector('[data-total]'),
+      sub   = root.querySelector('[data-sub]'),
+      km    = root.querySelector('[data-km]'),
+      kmOut = root.querySelector('[data-km-out]'),
+      pays  = root.querySelectorAll('[data-pay]'),
+      houseOut = root.querySelector('[data-house-sum]');
+  var MONTAGE = 120000, PER_KM = 90;
+  var cur = 0;
+
+  function money(n){ return Math.round(n).toLocaleString('ru-RU') + ' ₽'; }
+
+  function pick(sel, el){
+    root.querySelectorAll(sel).forEach(function(x){ x.classList.remove('on'); });
+    el.classList.add('on');
+    calc();
+  }
+  ['[data-model]', '[data-pack]', '[data-found]'].forEach(function(sel){
+    root.querySelectorAll(sel).forEach(function(x){
+      x.addEventListener('click', function(){ pick(sel, x); });
+    });
+  });
+  root.querySelectorAll('.copt input').forEach(function(x){ x.addEventListener('change', calc); });
+  if(km) km.addEventListener('input', calc);
+
+  function calc(){
+    var m = root.querySelector('[data-model].on'),
+        pk = root.querySelector('[data-pack].on'),
+        f  = root.querySelector('[data-found].on');
+
+    var withPack = parseFloat(m.dataset.price) * parseFloat(pk.dataset.k);
+    var add = 0, names = [];
+    root.querySelectorAll('.copt input:checked').forEach(function(x){
+      add += parseFloat(x.value); names.push(x.dataset.name);
+    });
+    /* договор на дом — по нему и считается график 30/40/15/15 */
+    var house = withPack + add;
+    var d = km ? +km.value : 0;
+    var log = MONTAGE + d * PER_KM;
+    var foundation = parseFloat(f.dataset.price);
+    var sum = house + foundation + log;
+
+    sub.textContent = m.dataset.name + ' · комплектация «' + pk.dataset.name + '»' +
+                      (names.length ? ' · опций: ' + names.length : '');
+    root.querySelector('[data-r-house]').textContent = money(withPack);
+    root.querySelector('[data-r-opts]').textContent  = names.length ? names.length + ' шт · ' + money(add) : '—';
+    root.querySelector('[data-r-found]').textContent = foundation ? money(foundation) : f.dataset.name;
+    root.querySelector('[data-r-log]').textContent   = money(log) + ' · ' + d + ' км';
+    if(kmOut) kmOut.textContent = d + ' км';
+    if(houseOut) houseOut.textContent = money(house);
+    pays.forEach(function(el){ el.textContent = money(house * (+el.dataset.pay) / 100); });
+
+    var from = cur, t0 = null; cur = sum;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){ total.textContent = money(sum); return; }
+    /* первый кадр только через rAF: при прямом вызове t === undefined и получится NaN */
+    requestAnimationFrame(function anim(t){
+      if(t0 === null) t0 = t;
+      var q = Math.min((t - t0) / 480, 1), e = 1 - Math.pow(1 - q, 3);
+      total.textContent = money(from + (sum - from) * e);
+      if(q < 1) requestAnimationFrame(anim);
+    });
+  }
+
+  /* расчёт уезжает в заявку — человеку не нужно ничего описывать словами */
+  var send = root.querySelector('[data-send-calc]');
+  if(send) send.addEventListener('click', function(){
+    var box = document.querySelector('#cta textarea'); if(!box) return;
+    var lines = ['Расчёт с сайта — ' + total.textContent, sub.textContent, ''];
+    root.querySelectorAll('.calc__rows div').forEach(function(r){
+      lines.push(r.querySelector('span').textContent + ': ' + r.querySelector('b').textContent);
+    });
+    lines.push('');
+    root.querySelectorAll('.pay__row').forEach(function(r){
+      lines.push(r.querySelector('.pay__pc').textContent + ' — ' +
+                 r.querySelector('.pay__t b').textContent + ': ' +
+                 r.querySelector('.pay__v').textContent);
+    });
+    box.value = lines.join('\n');
+    setTimeout(function(){
+      var n = document.querySelector('#cta input[type="text"]');
+      if(n) n.focus();
+    }, 700);
+  });
+
+  calc();
+})();
 
 </script>
 </body>
