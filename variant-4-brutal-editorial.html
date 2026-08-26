@@ -28,6 +28,7 @@ ul{margin:0;padding:0;list-style:none}
 @media(min-width:768px){:root{--gutter:40px}}
 @media(min-width:1280px){:root{--gutter:56px}}
 body.nav-open{overflow:hidden}
+section[id],footer[id]{scroll-margin-top:80px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------- Движок появления ---------- */
@@ -686,6 +687,31 @@ body.nav-open .mnav a{opacity:1;transform:none}
 (function(){
   'use strict';
   var RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- Страница всегда открывается с первого экрана ---
+     Браузер (особенно Safari на iOS) возвращает прошлую позицию прокрутки,
+     а скопированная ссылка может нести якорь вроде #cta — и тогда сайт
+     открывается сразу на последнем блоке. */
+  if('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if(location.hash){
+    /* якорь из адреса убираем сразу, до того как браузер к нему прыгнет */
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  window.scrollTo(0, 0);
+  window.addEventListener('load', function(){ window.scrollTo(0, 0); });
+
+  /* Переходы по разделам прокручивают страницу, но не пишут якорь в адрес,
+     иначе скопированная ссылка потом откроется сразу на этом блоке. */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var id = a.getAttribute('href').slice(1);
+    if(!id) return;
+    var el = document.getElementById(id);
+    if(!el) return;
+    e.preventDefault();
+    el.scrollIntoView({behavior: RM ? 'auto' : 'smooth', block: 'start'});
+  });
 
   /* --- Появление при прокрутке ---
      Считаем позицию сами: clip-path у «шторных» блоков обнуляет
